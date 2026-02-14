@@ -7,6 +7,7 @@ namespace StargateAPI.Business.Data
     [Table("AstronautDetail")]
     public class AstronautDetail
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public int PersonId { get; set; }

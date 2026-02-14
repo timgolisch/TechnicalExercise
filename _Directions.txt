@@ -12,8 +12,8 @@ The People that exist in this system are not all Astronauts. ACTS maintains a ma
 ## Definitions
 
 1. A person's astronaut assignment is the Astronaut Duty.
-1. A person's current astronaut information is stored in the Astronaut Detail table.
-1. A person's list of astronaut assignments is stored in the Astronaut Duty table.
+2. A person's current astronaut information is stored in the Astronaut Detail table.
+3. A person's list of astronaut assignments is stored in the Astronaut Duty table.
 
 ## Requirements
 
@@ -21,43 +21,68 @@ The People that exist in this system are not all Astronauts. ACTS maintains a ma
 
 The REST API is expected to do the following:
 
-1. Retrieve a person by name.
-1. Retrieve all people.
-1. Add/update a person by name.
-1. Retrieve Astronaut Duty by name.
-1. Add an Astronaut Duty.
+1. Retrieve a person by name. [x.controller]
+2. Retrieve all people. [x.controller]
+3. Add/update a person by name. [controller]
+	Need to use the pre-processor to determine when to update and prevent duplicates
+	Need to add/edit: currentRank, currentDutyTitle, careerStartDate, careerEndDate
+4. Retrieve Astronaut Duty by name. [x.controller]
+	Currently gets all, needs to just pick one
+5. Add an Astronaut Duty. [controller]
 
 ##### Implement a user interface: (Encouraged)
 
 The UI is expected to do the following:
 
-1. Successfully implement a web application that demonstrates production level quality. Angular is preferred.
-1. Implement call(s) to retrieve an individual's astronaut duties.
-1. Display the progress of the process and the results in a visually sophisticated and appealing manner.
+1. [ ] Successfully implement a web application that demonstrates production level quality. Angular is preferred.
+2. [ ] Implement call(s) to retrieve an individual's astronaut duties.
+3. [ ] Display the progress of the process and the results in a visually sophisticated and appealing manner.
 
 ## Tasks
 
 Overview
-Examine the code, find and resolve any flaws, if any exist. Identify design patterns and follow or change them. Provide fix(es) and be prepared to describe the changes.
+[ ] Examine the code, find and resolve any flaws, if any exist. 
+[ ] Identify design patterns and follow or change them. 
+[ ] Provide fix(es) and be prepared to describe the changes.
 
-1. Generate the database
+1. [x] Generate the database
    * This is your source and storage location
-1. Enforce the rules
-1. Improve defensive coding
-1. Add unit tests
+2. [ ] Enforce the rules
+3. [ ] Improve defensive coding
+4. [ ] Add unit tests
    * identify the most impactful methods requiring tests
    * reach >50% code coverage
-1. Implement process logging
+5. [ ] Implement process logging
    * Log exceptions
    * Log successes
    * Store the logs in the database
 
-## Rules
+## Rules (automated tests)
 
 1. A Person is uniquely identified by their Name.
-1. A Person who has not had an astronaut assignment will not have Astronaut records.
-1. A Person will only ever hold one current Astronaut Duty Title, Start Date, and Rank at a time.
-1. A Person's Current Duty will not have a Duty End Date.
-1. A Person's Previous Duty End Date is set to the day before the New Astronaut Duty Start Date when a new Astronaut Duty is received for a Person.
-1. A Person is classified as 'Retired' when a Duty Title is 'RETIRED'.
-1. A Person's Career End Date is one day before the Retired Duty Start Date.
+	*Caveat: Mike Johnson, Steve Smith, David Brown
+2. A Person who has not had an astronaut assignment will not have Astronaut records.
+3. A Person will only ever hold one current Astronaut Duty Title, Start Date, and Rank at a time.
+	*archive bit
+4. A Person's Current Duty will not have a Duty End Date.
+5. A Person's Previous Duty End Date is set to the [day before] the New Astronaut Duty Start Date 
+	when a new Astronaut Duty is received for a Person.
+6. A Person is classified as 'Retired' when a Duty Title is 'RETIRED'.
+7. A Person's Career End Date is [one day before] the Retired Duty Start Date.
+
+---- Notes: ------------------------------------------
+Already using EF code first (/business/migrations/ folder) don't generate DDL
+Git workflows? - Need to learn
+Automated testing - Pick one, add a project 
+
+-- Bug Fixes --
+\Business\Data\AstronautDetail.cs(22,31,22,37): 
+	warning CS8618: Non-nullable property 'Person' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable.
+\Business\Queries\GetAstronautDutiesByName.cs(47,32,47,38): 
+	warning CS8618: Non-nullable property 'Person' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable.
+\Business\Data\AstronautDuty.cs(22,31,22,37): 
+	warning CS8618: Non-nullable property 'Person' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable.
+\Business\Queries\GetAstronautDutiesByName.cs(32,29,32,35): 
+	warning CS8601: Possible null reference assignment.
+\Business\Queries\GetAstronautDutiesByName.cs(34,60,34,66): 
+	warning CS8602: Dereference of a possibly null reference.

@@ -3,6 +3,7 @@ using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
 using StargateAPI.Business.Data;
 using StargateAPI.Controllers;
+using System.Diagnostics.Eventing.Reader;
 
 namespace StargateAPI.Business.Commands
 {
@@ -38,21 +39,21 @@ namespace StargateAPI.Business.Commands
         }
         public async Task<CreatePersonResult> Handle(CreatePerson request, CancellationToken cancellationToken)
         {
+            await (new CreatePersonPreProcessor(_context)).Process(request, cancellationToken);
 
-                var newPerson = new Person()
-                {
-                   Name = request.Name
-                };
+            var newPerson = new Person()
+            {
+                Name = request.Name
+            };
 
-                await _context.People.AddAsync(newPerson);
+            await _context.People.AddAsync(newPerson);
 
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-                return new CreatePersonResult()
-                {
-                    Id = newPerson.Id
-                };
-          
+            return new CreatePersonResult()
+            {
+                Id = newPerson.Id
+            };
         }
     }
 

@@ -1,0 +1,22 @@
+rem: before you get started, make a SQL DB named StargateExample, or have yourself added to the dev instance
+rem: install EFCore lib for SQL Server from the VStudio CLI
+
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 8.0.4
+
+rem: Check your db connection string in appsettings.json
+
+rem: restore the DB by running the EF migration
+rem: Visual Studio, Tools, Nuget Package Manager, Console
+rem: Confirm EF Core is installed properly> Get-Help about_EntityFrameworkCore
+rem: Confirm the DB connection is properly formed and athenticates and connects> Get-DbContext
+rem: Confirm migrations are ready> Get-Migration
+rem: Apply the latest changes to our SQL Server instance
+
+Update-Database
+
+
+
+-----------------------------
+
+rem: To update the EF migration (after db schema changes) 
+dotnet ef migrations add AddNewTable -o Data/Migrations -n MyApp.Data.Migrations -c MyDbContext -p MyDataProject -s MyApiProject
