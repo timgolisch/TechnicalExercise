@@ -15,9 +15,9 @@ namespace StargateAPI.Migrations
                 name: "Person",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("SqlServer:", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(200)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,13 +28,13 @@ namespace StargateAPI.Migrations
                 name: "AstronautDetail",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    PersonId = table.Column<int>(type: "INTEGER", nullable: false),
-                    CurrentRank = table.Column<string>(type: "TEXT", nullable: false),
-                    CurrentDutyTitle = table.Column<string>(type: "TEXT", nullable: false),
-                    CareerStartDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    CareerEndDate = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PersonId = table.Column<int>(type: "int", nullable: false),
+                    CurrentRank = table.Column<string>(type: "nvarchar(100)", nullable: false),
+                    CurrentDutyTitle = table.Column<string>(type: "nvarchar(100)", nullable: false),
+                    CareerStartDate = table.Column<DateTime>(type: "datetime", nullable: true),
+                    CareerEndDate = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -51,13 +51,13 @@ namespace StargateAPI.Migrations
                 name: "AstronautDuty",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    PersonId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Rank = table.Column<string>(type: "TEXT", nullable: false),
-                    DutyTitle = table.Column<string>(type: "TEXT", nullable: false),
-                    DutyStartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    DutyEndDate = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PersonId = table.Column<int>(type: "int", nullable: false),
+                    Rank = table.Column<string>(type: "nvarchar(100)", nullable: false),
+                    DutyTitle = table.Column<string>(type: "nvarchar(100)", nullable: false),
+                    DutyStartDate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    DutyEndDate = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
