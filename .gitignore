@@ -5,3 +5,5 @@ obj/
 Debug/
 
 *.user
+*.zip
+*.tgz

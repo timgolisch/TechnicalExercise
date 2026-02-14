@@ -59,36 +59,37 @@ namespace StargateAPI.Business.Commands
 
             var person = _context.People.AsNoTracking().FirstOrDefault(p => p.Name == request.Name);
 
-            var astronautDuty = _context.AstronautDuties.AsNoTracking().FirstOrDefault(ad => ad.PersonId == person.Id);
+            //AstronautDuty holds the current Detail. So changes to the current duty are copied into AstronautDetail
+            var astronautDetail = _context.AstronautDetails.AsNoTracking().FirstOrDefault(ad => ad.PersonId == person.Id);
 
-            if (astronautDuty == null)
+            if (astronautDetail == null)
             {
-                astronautDuty = new AstronautDuty();
-                astronautDuty.PersonId = person.Id;
-                astronautDuty.DutyTitle = request.DutyTitle;
-                astronautDuty.Rank = request.Rank;
-                astronautDuty.DutyStartDate = request.DutyStartDate.Date;
+                astronautDetail = new AstronautDetail();
+                astronautDetail.PersonId = person.Id;
+                astronautDetail.CurrentDutyTitle = request.DutyTitle;
+                astronautDetail.CurrentRank = request.Rank;
+                astronautDetail.CareerStartDate = request.DutyStartDate.Date;
                 
                 if (request.DutyTitle == "RETIRED")
                 {
-                    astronautDuty.DutyEndDate = request.DutyStartDate.Date;
-                    //ToDo: Check the AstronautDetail to ensure it is also retired
+                    astronautDetail.CareerEndDate = request.DutyStartDate.Date;
                 }
 
-                await _context.AstronautDuties.AddAsync(astronautDuty);
+                await _context.AstronautDetails.AddAsync(astronautDetail);
 
             }
             else
             {
-                astronautDuty.DutyTitle = request.DutyTitle;
-                astronautDuty.Rank = request.Rank;
+                astronautDetail.CurrentDutyTitle = request.DutyTitle;
+                astronautDetail.CurrentRank = request.Rank;
                 if (request.DutyTitle == "RETIRED")
                 {
-                    astronautDuty.DutyEndDate = request.DutyStartDate.AddDays(-1).Date;
+                    astronautDetail.CareerEndDate = request.DutyStartDate.AddDays(-1).Date;
                 }
-                _context.AstronautDuties.Update(astronautDuty);
+                _context.AstronautDetails.Update(astronautDetail);
             }
 
+            //de-activate the current Duty, if there is one
             var previousDuty = _context.AstronautDuties.AsNoTracking().OrderBy(ad => ad.DutyStartDate).LastOrDefault(ad => ad.PersonId == person.Id);
 
             if (previousDuty != null)
@@ -97,6 +98,7 @@ namespace StargateAPI.Business.Commands
                 _context.AstronautDuties.Update(previousDuty);
             }
 
+            //Then add the newest record
             var newAstronautDuty = new AstronautDuty()
             {
                 PersonId = person.Id,
