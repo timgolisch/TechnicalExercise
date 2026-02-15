@@ -12,8 +12,8 @@ using StargateAPI.Business.Data;
 namespace StargateAPI.Migrations
 {
     [DbContext(typeof(StargateContext))]
-    [Migration("20260214_FixesAndLogging")]
-    partial class FixesAndLogging
+    [Migration("20260214_SqlServer_Logging")]
+    partial class SqlServer_Logging
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

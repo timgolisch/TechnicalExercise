@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace StargateAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class FixesAndLogging : Migration
+    public partial class SqlServer_Logging : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

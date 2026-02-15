@@ -21,115 +21,109 @@ namespace StargateAPI.Migrations
             modelBuilder.HasAnnotation("ProductVersion", "7.0.15");
 
             modelBuilder.Entity("StargateAPI.Business.Data.AstronautDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                b.Property<DateTime?>("CareerEndDate")
+                    .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("CareerEndDate")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime?>("CareerStartDate")
+                    .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CareerStartDate")
-                        .HasColumnType("datetime2");
+                b.Property<string>("CurrentDutyTitle")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("CurrentDutyTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("CurrentRank")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("CurrentRank")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<int>("PersonId")
+                    .HasColumnType("INTEGER");
 
-                    b.Property<int>("PersonId")
-                        .HasColumnType("int");
+                b.HasKey("Id");
 
-                    b.HasKey("Id");
+                b.HasIndex("PersonId")
+                    .IsUnique();
 
-                    b.HasIndex("PersonId")
-                        .IsUnique();
-
-                    b.ToTable("AstronautDetail");
-                });
+                b.ToTable("AstronautDetail");
+            });
 
             modelBuilder.Entity("StargateAPI.Business.Data.AstronautDuty", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                b.Property<DateTime?>("DutyEndDate")
+                    .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("DutyEndDate")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DutyStartDate")
+                    .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("DutyStartDate")
-                        .HasColumnType("datetime2");
+                b.Property<string>("DutyTitle")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("DutyTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<int>("PersonId")
+                    .HasColumnType("INTEGER");
 
-                    b.Property<int>("PersonId")
-                        .HasColumnType("int");
+                b.Property<string>("Rank")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("Rank")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.HasKey("Id");
 
-                    b.HasKey("Id");
+                b.HasIndex("PersonId");
 
-                    b.HasIndex("PersonId");
-
-                    b.ToTable("AstronautDuty");
-                });
+                b.ToTable("AstronautDuty");
+            });
 
             modelBuilder.Entity("StargateAPI.Business.Data.Person", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.HasKey("Id");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("Person");
-                });
+                b.ToTable("Person");
+            });
 
             modelBuilder.Entity("StargateAPI.Business.Data.AstronautDetail", b =>
-                {
-                    b.HasOne("StargateAPI.Business.Data.Person", "Person")
-                        .WithOne("AstronautDetail")
-                        .HasForeignKey("StargateAPI.Business.Data.AstronautDetail", "PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("StargateAPI.Business.Data.Person", "Person")
+                    .WithOne("AstronautDetail")
+                    .HasForeignKey("StargateAPI.Business.Data.AstronautDetail", "PersonId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Person");
-                });
+                b.Navigation("Person");
+            });
 
             modelBuilder.Entity("StargateAPI.Business.Data.AstronautDuty", b =>
-                {
-                    b.HasOne("StargateAPI.Business.Data.Person", "Person")
-                        .WithMany("AstronautDuties")
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("StargateAPI.Business.Data.Person", "Person")
+                    .WithMany("AstronautDuties")
+                    .HasForeignKey("PersonId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Person");
-                });
+                b.Navigation("Person");
+            });
 
             modelBuilder.Entity("StargateAPI.Business.Data.Person", b =>
-                {
-                    b.Navigation("AstronautDetail");
+            {
+                b.Navigation("AstronautDetail");
 
-                    b.Navigation("AstronautDuties");
-                });
+                b.Navigation("AstronautDuties");
+            });
 #pragma warning restore 612, 618
         }
     }
