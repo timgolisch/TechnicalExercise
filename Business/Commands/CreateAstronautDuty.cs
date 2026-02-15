@@ -34,12 +34,21 @@ namespace StargateAPI.Business.Commands
         {
             var person = _context.People.AsNoTracking().FirstOrDefault(p => p.Name == request.Name);
 
-            if (person is null) throw new BadHttpRequestException("Bad Request: person not found");
+            if (person is null)
+            {
+                _context.Logs.AddAsync(new Log("Failure", $"Cannot add duty for unknown person: {request.Name}"));
+                throw new BadHttpRequestException("Bad Request: person not found");
+            }
 
-            var verifyNoPreviousDuty = _context.AstronautDuties.FirstOrDefault(z => z.DutyTitle == request.DutyTitle && z.DutyStartDate == request.DutyStartDate);
+            //Note: This would be more effective if it also prevented an entry that pre-dates an existing entry, which would cause overlaps
+            //Check for a duplicate
+            var verifyNoPreviousDuty = _context.AstronautDuties.AsNoTracking().FirstOrDefault(z => z.DutyTitle == request.DutyTitle && z.DutyStartDate == request.DutyStartDate);
 
-            //Note: Instead of throwing an exception, mark the PreviousDuty as ended (1 day before this DutyStartDate)
-            //if (verifyNoPreviousDuty is not null) throw new BadHttpRequestException("Bad Request");
+            if (verifyNoPreviousDuty is not null)
+            {
+                _context.Logs.AddAsync(new Log("Failure", $"Cannot add duplicate duty for: {person.Name} - {request.DutyTitle}, {request.DutyStartDate}"));
+                throw new BadHttpRequestException("Bad Request: Duplicate duty entry");
+            }
 
             return Task.CompletedTask;
         }
@@ -60,7 +69,7 @@ namespace StargateAPI.Business.Commands
             var person = _context.People.AsNoTracking().FirstOrDefault(p => p.Name == request.Name);
 
             //AstronautDuty holds the current Detail. So changes to the current duty are copied into AstronautDetail
-            var astronautDetail = _context.AstronautDetails.AsNoTracking().FirstOrDefault(ad => ad.PersonId == person.Id);
+            var astronautDetail = _context.AstronautDetails.FirstOrDefault(ad => ad.PersonId == person.Id);
 
             if (astronautDetail == null)
             {
@@ -90,7 +99,10 @@ namespace StargateAPI.Business.Commands
             }
 
             //de-activate the current Duty, if there is one
-            var previousDuty = _context.AstronautDuties.AsNoTracking().OrderBy(ad => ad.DutyStartDate).LastOrDefault(ad => ad.PersonId == person.Id);
+            var previousDuty = _context.AstronautDuties
+                .Where(ad => ad.PersonId == person.Id)
+                .OrderBy(ad => ad.DutyStartDate)
+                .LastOrDefault();
 
             if (previousDuty != null)
             {
@@ -111,6 +123,8 @@ namespace StargateAPI.Business.Commands
             await _context.AstronautDuties.AddAsync(newAstronautDuty);
 
             await _context.SaveChangesAsync();
+
+            await _context.Logs.AddAsync(new Log("CreateAstronautDuty", $"Added - {request.Rank}, {request.DutyTitle} for {person.Name}"));
 
             return new CreateAstronautDutyResult()
             {

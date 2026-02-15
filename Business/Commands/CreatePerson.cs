@@ -23,7 +23,11 @@ namespace StargateAPI.Business.Commands
         {
             var person = _context.People.AsNoTracking().FirstOrDefault(z => z.Name == request.Name);
 
-            if (person is not null) throw new BadHttpRequestException("Bad Request");
+            if (person is not null)
+            {
+                _context.Logs.AddAsync(new Log("Failure", $"Cannot add duplicate person: {request.Name}"));
+                throw new BadHttpRequestException("Bad Request: Duplicate name");
+            }
 
             return Task.CompletedTask;
         }
@@ -49,6 +53,8 @@ namespace StargateAPI.Business.Commands
             await _context.People.AddAsync(newPerson);
 
             await _context.SaveChangesAsync();
+
+            await _context.Logs.AddAsync(new Log("CreatePerson", $"Added - {request.Name}"));
 
             return new CreatePersonResult()
             {
