@@ -27,13 +27,15 @@ The REST API is expected to do the following:
 
 1. [x] Retrieve a person by name.   [controller]
 2. [x] Retrieve all people.         [controller]
-3. [ ] Add/update a person by name. [controller]
-	[x] Add
-	[ ] Need to use the pre-processor to determine when to update and prevent duplicates
-	[ ] Need to add/edit: currentRank, currentDutyTitle, careerStartDate, careerEndDate
+3. [ ] Person Add/update a person.  [controller]
+	[x] Add by name
+	[ ] Update by name
+	[x] Need to use the pre-processor to determine when to update and prevent duplicates
 4. [x] Retrieve Astronaut Duty by name. [controller]
-	[x] Gets all
-5. [ ] Add an Astronaut Duty.        [controller]
+5. [ ] Astronaut Duty               [controller]
+	[ ] Add by name
+	[ ] Edit: currentRank, currentDutyTitle, careerStartDate, careerEndDate
+
 
 ##### Implement a user interface: (Encouraged)
 
@@ -46,18 +48,18 @@ The UI is expected to do the following:
 ## Tasks
 
 Overview
-[ ] Examine the code, find and resolve any flaws, if any exist. 
+[x] Examine the code, find and resolve any flaws, if any exist. 
 [ ] Identify design patterns and follow or change them. 
-[ ] Provide fix(es) and be prepared to describe the changes.
+[x] Provide fix(es) and be prepared to describe the changes.
 
 1. [x] Generate the database
    * This is your source and storage location
 2. [ ] Enforce the rules
-3. [ ] Improve defensive coding
+3. [x] Improve defensive coding
 4. [ ] Add unit tests
    * identify the most impactful methods requiring tests
    * reach >50% code coverage
-5. [ ] Implement process logging
+5. [x] Implement process logging
    * Log exceptions
    * Log successes
    * Store the logs in the database

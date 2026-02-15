@@ -82,6 +82,8 @@ namespace StargateAPI.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DutyEndDate");
+
                     b.HasIndex("PersonId");
 
                     b.ToTable("AstronautDuty");
@@ -99,6 +101,10 @@ namespace StargateAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("EventDateTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("StackTrace")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -109,9 +115,13 @@ namespace StargateAPI.Migrations
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EventDateTime");
+
+                    b.HasIndex("Type");
 
                     b.ToTable("Log");
                 });
@@ -126,9 +136,11 @@ namespace StargateAPI.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name");
 
                     b.ToTable("Person");
                 });

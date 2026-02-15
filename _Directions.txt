@@ -21,14 +21,13 @@ The People that exist in this system are not all Astronauts. ACTS maintains a ma
 
 The REST API is expected to do the following:
 
-1. Retrieve a person by name. [x.controller]
-2. Retrieve all people. [x.controller]
-3. Add/update a person by name. [controller]
-	Need to use the pre-processor to determine when to update and prevent duplicates
-	Need to add/edit: currentRank, currentDutyTitle, careerStartDate, careerEndDate
-4. Retrieve Astronaut Duty by name. [x.controller]
-	Currently gets all, needs to just pick one
-5. Add an Astronaut Duty. [controller]
+1. [x] Retrieve a person by name.   [controller]
+2. [x] Retrieve all people.         [controller]
+3. [ ] Add/update a person by name. [controller]
+	[x] Need to use the pre-processor to determine when to update and prevent duplicates
+	[ ] Need to add/edit: currentRank, currentDutyTitle, careerStartDate, careerEndDate
+4. [x] Retrieve Astronaut Duty by name. [controller]
+5. [ ] Add an Astronaut Duty.       [controller]
 
 ##### Implement a user interface: (Encouraged)
 
@@ -48,11 +47,11 @@ Overview
 1. [x] Generate the database
    * This is your source and storage location
 2. [ ] Enforce the rules
-3. [ ] Improve defensive coding
+3. [x] Improve defensive coding
 4. [ ] Add unit tests
    * identify the most impactful methods requiring tests
    * reach >50% code coverage
-5. [ ] Implement process logging
+5. [x] Implement process logging
    * Log exceptions
    * Log successes
    * Store the logs in the database

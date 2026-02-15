@@ -20,6 +20,8 @@ namespace StargateAPI.Business.Data
         
         public string StackTrace { get; set; } = string.Empty;
 
+        public DateTime EventDateTime { get; set; } = DateTime.UtcNow;
+
         public Log() { }
 
         public Log(string title, string description)
@@ -49,6 +51,9 @@ namespace StargateAPI.Business.Data
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
+            builder.HasIndex(x => x.Type);
+            builder.HasIndex(x => x.EventDateTime);
+            builder.Property<DateTime>(x => x.EventDateTime).ValueGeneratedOnAdd();
         }
     }
 }

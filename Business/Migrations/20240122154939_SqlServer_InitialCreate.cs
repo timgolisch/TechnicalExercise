@@ -23,6 +23,10 @@ namespace StargateAPI.Migrations
                 {
                     table.PrimaryKey("PK_Person", x => x.Id);
                 });
+            migrationBuilder.CreateIndex(
+                name: "IX_Person_Name",
+                table: "Person",
+                column: "Name");
 
             migrationBuilder.CreateTable(
                 name: "AstronautDetail",
