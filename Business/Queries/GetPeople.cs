@@ -22,7 +22,8 @@ namespace StargateAPI.Business.Queries
         {
             var result = new GetPeopleResult();
 
-            var query = $"SELECT a.Id as PersonId, a.Name, b.CurrentRank, b.CurrentDutyTitle, b.CareerStartDate, b.CareerEndDate FROM [Person] a LEFT JOIN [AstronautDetail] b on b.PersonId = a.Id";
+            var query = "SELECT p.Id as PersonId, p.Name, d.CurrentRank, d.CurrentDutyTitle, d.CareerStartDate, d.CareerEndDate " + 
+                "FROM [Person] p LEFT JOIN [AstronautDetail] d on p.Id = d.PersonId";
 
             var people = await _context.Connection.QueryAsync<PersonAstronaut>(query);
 
