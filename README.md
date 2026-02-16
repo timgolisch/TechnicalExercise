@@ -34,7 +34,7 @@ The REST API is expected to do the following:
 4. [x] Retrieve Astronaut Duty by name. [controller]
 5. [ ] Astronaut Duty               [controller]
 	[x] Add by name
-	[ ] Edit: currentRank, currentDutyTitle, careerStartDate, careerEndDate
+	[x] Edit: currentRank, currentDutyTitle, careerStartDate, careerEndDate
 
 
 ##### Implement a user interface: (Encouraged)
@@ -76,3 +76,4 @@ Overview
 	when a new Astronaut Duty is received for a Person.
 6. A Person is classified as 'Retired' when a Duty Title is 'RETIRED'.
 7. A Person's Career End Date is [one day before] the Retired Duty Start Date.
+	Changes to Duty records might bring a person out of retirement

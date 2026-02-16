@@ -51,16 +51,19 @@ namespace StargateAPI.Business.Commands
                 _context.SaveChangesAsync();
                 throw new BadHttpRequestException("Bad Request: person not found");
             }
-
-            //Check for a duplicate
-            var verifyNoPreviousDuty = _context.AstronautDuties.AsNoTracking()
-                .FirstOrDefault(z => z.PersonId == person.Id && z.DutyTitle == request.DutyTitle && z.DutyStartDate == request.DutyStartDate);
-
-            if (verifyNoPreviousDuty is not null)
+            else if (person.Id != astronautDuty.PersonId)
             {
-                _context.Logs.AddAsync(new Log("Failure", $"Cannot add duplicate duty for: {person.Name} - {request.DutyTitle}, {request.DutyStartDate}"));
-                _context.SaveChangesAsync();
-                throw new BadHttpRequestException("Bad Request: Duplicate duty entry");
+                //assigning this duty record to another person is more-involved
+                //Check for a duplicate
+                var verifyNoPreviousDuty = _context.AstronautDuties.AsNoTracking()
+                    .FirstOrDefault(z => z.PersonId == person.Id && z.DutyTitle == request.DutyTitle && z.DutyStartDate == request.DutyStartDate);
+
+                if (verifyNoPreviousDuty is null)
+                {
+                    _context.Logs.AddAsync(new Log("Failure", $"Cannot add duplicate duty for: {person.Name} - {request.DutyTitle}, {request.DutyStartDate}"));
+                    _context.SaveChangesAsync();
+                    throw new BadHttpRequestException("Bad Request: Duplicate duty entry");
+                }
             }
             //Note: Ask if we should also prevent an entry that pre-dates an existing entry, which could cause overlaps
 
@@ -91,7 +94,7 @@ namespace StargateAPI.Business.Commands
                 if (request.Rank.Trim() != "") astronautDuty.Rank = request.Rank;
                 if (request.DutyTitle.Trim() != "") astronautDuty.DutyTitle = request.DutyTitle;
                 if (request.DutyStartDate != null) astronautDuty.DutyStartDate = request.DutyStartDate.Value;
-                if (request.DutyEndDate != null) astronautDuty.DutyEndDate = request.DutyEndDate;
+                astronautDuty.DutyEndDate = request.DutyEndDate;
 
                 _context.AstronautDuties.Update(astronautDuty);
 
@@ -106,7 +109,14 @@ namespace StargateAPI.Business.Commands
                         if (person != null && person.Id != originalPersonId) astronautDetail.PersonId = person.Id;
                         astronautDetail.CurrentRank = astronautDuty.Rank;
                         astronautDetail.CurrentDutyTitle = astronautDuty.DutyTitle;
-                        astronautDetail.CareerEndDate = astronautDuty.DutyStartDate.AddDays(-1).Date;                    
+                        if (request.DutyTitle == "RETIRED")
+                        {
+                            astronautDetail.CareerEndDate = astronautDuty.DutyStartDate.AddDays(-1).Date;
+                        }
+                        else
+                        {
+                            astronautDetail.CareerEndDate = null;
+                        }
                         _context.AstronautDetails.Update(astronautDetail);
                     }
                 }
