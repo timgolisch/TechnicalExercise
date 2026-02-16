@@ -26,7 +26,14 @@ namespace StargateAPI.Business.Commands
             if (person is not null)
             {
                 _context.Logs.AddAsync(new Log("Failure", $"Cannot add duplicate person: {request.Name}"));
+                _context.SaveChangesAsync();
                 throw new BadHttpRequestException("Bad Request: Duplicate name");
+            }
+            else if (request.Name.Trim() == "")
+            {
+                _context.Logs.AddAsync(new Log("Failure", $"Cannot add person with a blank name"));
+                _context.SaveChangesAsync();
+                throw new BadHttpRequestException("Bad Request: Invalid name");
             }
 
             return Task.CompletedTask;
@@ -43,8 +50,6 @@ namespace StargateAPI.Business.Commands
         }
         public async Task<CreatePersonResult> Handle(CreatePerson request, CancellationToken cancellationToken)
         {
-            await (new CreatePersonPreProcessor(_context)).Process(request, cancellationToken);
-
             var newPerson = new Person()
             {
                 Name = request.Name
@@ -52,9 +57,9 @@ namespace StargateAPI.Business.Commands
 
             await _context.People.AddAsync(newPerson);
 
-            await _context.SaveChangesAsync();
-
             await _context.Logs.AddAsync(new Log("CreatePerson", $"Added - {request.Name}"));
+
+            await _context.SaveChangesAsync();
 
             return new CreatePersonResult()
             {

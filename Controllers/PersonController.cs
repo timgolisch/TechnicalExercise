@@ -63,15 +63,33 @@ namespace StargateAPI.Controllers
             }
         }
 
-        [HttpPost("")]
-        public async Task<IActionResult> CreatePerson([FromBody] string name)
+        [HttpPost("Create")]
+        public async Task<IActionResult> CreatePerson([FromBody] CreatePerson request)
         {
             try
             {
-                var result = await _mediator.Send(new CreatePerson()
+                var result = await _mediator.Send(request);
+
+                return this.GetResponse(result);
+            }
+            catch (Exception ex)
+            {
+                return this.GetResponse(new BaseResponse()
                 {
-                    Name = name
+                    Message = ex.Message,
+                    Success = false,
+                    ResponseCode = (int)HttpStatusCode.InternalServerError
                 });
+            }
+
+        }
+
+        [HttpPost("Update")]
+        public async Task<IActionResult> UpdatePerson([FromBody] UpdatePerson request)
+        {
+            try
+            {
+                var result = await _mediator.Send(request);
 
                 return this.GetResponse(result);
             }
