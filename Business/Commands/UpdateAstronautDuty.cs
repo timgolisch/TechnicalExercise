@@ -4,7 +4,10 @@ using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
 using StargateAPI.Business.Data;
 using StargateAPI.Controllers;
-using System.Net;
+
+//---- Changes / Notes -----------
+// 1. New file. Lots of thinking about business rules. Not sure I got all of them. Plenty of rabbit hole to go down for rules on updates
+//--------------------------------
 
 namespace StargateAPI.Business.Commands
 {

@@ -4,6 +4,10 @@ using StargateAPI.Business.Data;
 using StargateAPI.Business.Dtos;
 using StargateAPI.Controllers;
 
+//---- Changes / Notes -----------
+// I touched up the query syntax to make it a little more readable
+//--------------------------------
+
 namespace StargateAPI.Business.Queries
 {
     public class GetPeople : IRequest<GetPeopleResult>

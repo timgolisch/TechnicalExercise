@@ -4,6 +4,13 @@ using StargateAPI.Business.Commands;
 using StargateAPI.Business.Queries;
 using System.Net;
 
+//---- Changes / Notes -----------
+// (normally I wouldn't add noise into a file like this, but I want to keep notes on what I changed, and why, so I can discuss it)
+// 1. The default (get duties by name) was getting Person instead of Duties
+// 2. Create was missing a route
+// 3. I added an Update handler
+//--------------------------------
+
 namespace StargateAPI.Controllers
 {
     [ApiController]

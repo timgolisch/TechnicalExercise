@@ -2,6 +2,11 @@ using Microsoft.EntityFrameworkCore;
 using StargateAPI.Business.Commands;
 using StargateAPI.Business.Data;
 
+//---- Changes / Notes -----------
+// (normally I wouldn't add noise into a file like this, but I want to keep notes on what I changed, and why, so I can discuss it)
+// I changed the connection to use SQL Server instead of Sqlite, because I like SQL Server and I like to raise the bar a little for an interview
+//--------------------------------
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

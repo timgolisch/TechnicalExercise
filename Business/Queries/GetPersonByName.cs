@@ -5,6 +5,11 @@ using StargateAPI.Business.Data;
 using StargateAPI.Business.Dtos;
 using StargateAPI.Controllers;
 
+//---- Changes / Notes -----------
+// 1. The query had a SQL Injection vulnerability. I changed it to use a parmeterized query
+// 2. I also formatted the query to make it a little more readable
+//--------------------------------
+
 namespace StargateAPI.Business.Queries
 {
     public class GetPersonByName : IRequest<GetPersonByNameResult>
@@ -29,7 +34,7 @@ namespace StargateAPI.Business.Queries
 
             var query = "SELECT p.Id as PersonId, p.Name, d.CurrentRank, d.CurrentDutyTitle, d.CareerStartDate, d.CareerEndDate " + 
                 "FROM [Person] p LEFT JOIN [AstronautDetail] d on p.Id = d.PersonId " + 
-                $"WHERE p.Name = @Name";
+                "WHERE p.Name = @Name";
 
             var person = await _context.Connection.QueryAsync<PersonAstronaut>(query, parameters);
 

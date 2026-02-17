@@ -4,6 +4,12 @@ using StargateAPI.Business.Commands;
 using StargateAPI.Business.Queries;
 using System.Net;
 
+//---- Changes / Notes -----------
+// (normally I wouldn't add noise into a file like this, but I want to keep notes on what I changed, and why, so I can discuss it)
+// 1. CreatePerson and UpdatePerson didn't have routes defined. That was a problem.
+// 2. CreatePerson was receiving just a Name as string. It was inconsistent with everything else, which adds technical debt
+//--------------------------------
+
 namespace StargateAPI.Controllers
 {
    

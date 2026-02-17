@@ -6,6 +6,13 @@ using StargateAPI.Business.Data;
 using StargateAPI.Controllers;
 using System.Net;
 
+//---- Changes / Notes -----------
+// 1. DutyStartDate is required. DutyEndDate was missing
+// 2. PreProcessor, I added more validation, better error messages, logging and a note about a possible BR missed
+// 3. I changed the raw SQL to use EF, to make it more consistent and avoid possible Injection attacks
+// 4. The lookup for current duty wasn't getting the most-recent. It was getting FirstOrDefault
+//--------------------------------
+
 namespace StargateAPI.Business.Commands
 {
     public class CreateAstronautDuty : IRequest<CreateAstronautDutyResult>

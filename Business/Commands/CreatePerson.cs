@@ -3,7 +3,11 @@ using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
 using StargateAPI.Business.Data;
 using StargateAPI.Controllers;
-using System.Diagnostics.Eventing.Reader;
+
+//---- Changes / Notes -----------
+// 1. PreProcessor, I added more validation, better error messages, logging
+// 2. I added logging after success
+//--------------------------------
 
 namespace StargateAPI.Business.Commands
 {

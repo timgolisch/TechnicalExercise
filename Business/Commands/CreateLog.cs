@@ -5,6 +5,10 @@ using StargateAPI.Business.Data;
 using StargateAPI.Controllers;
 using System.Diagnostics.Eventing.Reader;
 
+//---- Changes / Notes -----------
+// 1. I don't actually use this, but it might be useful later, if we choose to log exceptions from the Controllers or the UI
+//--------------------------------
+
 namespace StargateAPI.Business.Commands
 {
     public class CreateLog : IRequest<CreateLogResult>

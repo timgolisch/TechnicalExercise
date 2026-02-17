@@ -3,7 +3,12 @@ using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
 using StargateAPI.Business.Data;
 using StargateAPI.Controllers;
-using System.Diagnostics.Eventing.Reader;
+
+//---- Changes / Notes -----------
+// 1. New file. Lots of thinking about business rules.
+//    Since this only changes the Name, I think I covered all of the angles,
+//    but if I had a co-worker (BA or tester) I would certainly ask for a review
+//--------------------------------
 
 namespace StargateAPI.Business.Commands
 {
